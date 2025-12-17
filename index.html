@@ -484,7 +484,12 @@ Happy birthday, my love.
     function restoreGallery() {
       galleryItems.forEach((item, idx) => {
         const saved = localStorage.getItem('galleryImage_' + idx);
-        if (saved) setGalleryImage(idx, saved);
+        if (saved) {
+          setGalleryImage(idx, saved);
+        } else {
+          // Fallback to repo assets so published site shows images
+          setGalleryImage(idx, `assets/embedded-${idx}.png`);
+        }
       });
     }
 
