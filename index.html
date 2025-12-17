@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday, Maymay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Staatliches&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --accent: #f9d36a;
+      --text-main: #ffffff;
+      --text-sub: #f3e6ff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top left, #f0286a, #52027c, #120013);
+      min-height: 100vh;
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      background: conic-gradient(from 120deg, #f0286a, #a312ff, #ff6fb2, #f9d36a, #f0286a);
+      opacity: 0.15;
+      mix-blend-mode: screen;
+      filter: blur(60px);
+      animation: spin 30s linear infinite;
+      z-index: -9;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    main { max-width: 960px; margin: auto; padding: 20px; }
+
+    .screen {
+      display: none;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .active { display: flex; }
+
+    #main-page { height: auto; min-height: 100vh; }
+    #main-page.active { display: block; }
+    #main-page .card { margin: 20px auto; }
+
+    .card {
+      width: 90%;
+      max-width: 860px;
+      padding: 40px;
+      background: radial-gradient(circle at top left, rgba(240,40,106,0.35), rgba(9,0,30,0.95));
+      border-radius: 28px;
+      border: 1px solid rgba(249,211,106,0.4);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .big-title {
+      font-family: "Staatliches";
+      font-size: 3rem;
+      text-align: center;
+      letter-spacing: 0.15em;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      margin-top: 25px;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 50px;
+      background: white;
+      color: #1b0424;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .btn:hover { transform: scale(1.05); background: var(--accent); }
+
+    #next-btn { display: block; margin: 25px auto 0; }
+
+    .slide-in { animation: slideIn 0.55s ease forwards; }
+    .slide-out { animation: slideOut 0.45s ease forwards; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.96); filter: blur(6px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    @keyframes slideOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(-40px) scale(0.96); filter: blur(6px); }
+    }
+
+    .card-header {
+      font-family: "Staatliches";
+      font-size: 2.6rem;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .card-sub {
+      font-size: 1rem;
+      text-align: center;
+      white-space: pre-line;
+      color: var(--text-sub);
+      line-height: 1.7;
+    }
+
+    .hero-heading {
+      font-family: "Staatliches";
+      font-size: 3rem;
+      text-align: center;
+      letter-spacing: 0.15em;
+    }
+    .hero-sub { text-align: center; color: var(--text-sub); margin: 10px 0; }
+    .hero-note { text-align: center; color: var(--accent); font-style: italic; margin-bottom: 25px; }
+
+    .letter-body {
+      margin-top: 15px;
+      color: var(--text-sub);
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    /* Gallery */
+    .section-title {
+      font-family: "Staatliches";
+      font-size: 2rem;
+      text-align: center;
+      margin: 28px 0 14px;
+      letter-spacing: 0.08em;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (min-width: 700px) {
+      .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .gallery-item {
+      position: relative;
+      height: 180px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(249,211,106,0.25);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    footer { text-align: center; margin-top: 25px; color: var(--text-sub); }
+  </style>
+</head>
+
+<body>
+<main>
+
+<!-- START -->
+<section id="start-screen" class="screen active">
+  <div class="card">
+    <div class="big-title">HAPPY BIRTHDAY, MAYMAY!!</div>
+    <p style="text-align:center;color:#f3e6ff;">Tap to unwrap something I wanted to tell you.</p>
+    <button id="start-btn" class="btn">Start</button>
+  </div>
+</section>
+
+<!-- WRAPPED -->
+<section id="wrapped-screen" class="screen">
+  <div class="card" id="wrapped-card">
+    <h1 id="slide-title" class="card-header"></h1>
+    <p id="slide-subtitle" class="card-sub"></p>
+    <button id="next-btn" class="btn">Next</button>
+  </div>
+</section>
+
+<!-- MAIN PAGE -->
+<section id="main-page" class="screen">
+  <div class="card">
+    <h1 class="hero-heading">HAPPY BIRTHDAY, MAYMAY 💜</h1>
+    <p class="hero-sub">Thank you for being my favorite person in every world, real or imaginary.</p>
+    <p class="hero-note">“Even in chaos, I’d still charge forward for you.” — Tony</p>
+
+    <div class="letter-body">
+Dear Maymay,
+
+This year, you turned ordinary days into something I always look forward to.
+You made my worst moments softer, my best moments brighter, and every little in-between feel like it mattered.
+
+Thank you for your patience, your laughs, your chaos, and your warmth.
+Thank you for being my comfort character in real life.
+
+I’m so proud of you, so grateful for you, and so in love with you.
+
+Happy birthday, my love.
+— Tony
+    </div>
+
+    <h2 class="section-title">Little Snapshots of Us</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img id="gallery-img-0" alt="Snapshot 1"></div>
+      <div class="gallery-item"><img id="gallery-img-1" alt="Snapshot 2"></div>
+      <div class="gallery-item"><img id="gallery-img-2" alt="Snapshot 3"></div>
+      <div class="gallery-item"><img id="gallery-img-3" alt="Snapshot 4"></div>
+    </div>
+
+    <footer>
+      <button id="replay-btn" class="btn">Replay</button>
+    </footer>
+  </div>
+</section>
+
+</main>
+
+<script>
+const slides = [
+  { title: "MAYMAY WRAPPED", subtitle: "Just a few things I wanted you to know." },
+  { title: "THIS YEAR", subtitle: "You made my days feel lighter in ways you probably didn’t notice." },
+  { title: "THE MOMENTS I TREASURE", subtitle: "The quiet ones.\nThe normal ones.\nThe ones with you." },
+  { title: "WHAT YOU GAVE ME", subtitle: "Comfort.\nUnderstanding.\nA place where I could breathe." },
+  { title: "WHEN LIFE WAS HEAVY", subtitle: "You stayed.\nAnd that meant more than you know." },
+  { title: "WHAT I ADMIRE", subtitle: "Your heart.\nYour strength.\nThe way you keep going even when it’s hard." },
+  { title: "WHAT I FEEL", subtitle: "Grateful.\nLucky.\nProud of you." },
+  { title: "ONE SIMPLE TRUTH", subtitle: "Loving you feels calm.\nAnd it feels right." },
+  { title: "THANK YOU", subtitle: "For being patient.\nFor being kind.\nFor being you." },
+  { title: "HAPPY BIRTHDAY, MAYMAY", subtitle: "I hope this year treats you gently.\nI’m always here.\n— Tony" }
+];
+
+const startScreen = document.getElementById("start-screen");
+const wrappedScreen = document.getElementById("wrapped-screen");
+const mainPage = document.getElementById("main-page");
+
+const startBtn = document.getElementById("start-btn");
+const nextBtn = document.getElementById("next-btn");
+const replayBtn = document.getElementById("replay-btn");
+
+const slideTitle = document.getElementById("slide-title");
+const slideSubtitle = document.getElementById("slide-subtitle");
+const wrappedCard = document.getElementById("wrapped-card");
+
+let currentSlide = 0;
+let animating = false;
+
+function showScreen(screen) {
+  [startScreen, wrappedScreen, mainPage].forEach(s => s.classList.remove("active"));
+  screen.classList.add("active");
+}
+
+function renderSlide() {
+  slideTitle.textContent = slides[currentSlide].title;
+  slideSubtitle.textContent = slides[currentSlide].subtitle;
+  nextBtn.textContent = currentSlide === slides.length - 1 ? "Continue" : "Next";
+}
+
+function startWrapped() {
+  currentSlide = 0;
+  renderSlide();
+  showScreen(wrappedScreen);
+  wrappedCard.classList.add("slide-in");
+}
+
+function nextSlide() {
+  if (animating) return;
+  animating = true;
+  wrappedCard.classList.add("slide-out");
+}
+
+wrappedCard.addEventListener("animationend", (e) => {
+  if (e.animationName === "slideOut") {
+    // Finished sliding out: advance to next slide or show main page
+    wrappedCard.classList.remove("slide-out");
+    if (currentSlide < slides.length - 1) {
+      currentSlide++;
+      renderSlide();
+      wrappedCard.classList.add("slide-in");
+    } else {
+      showScreen(mainPage);
+    }
+  } else if (e.animationName === "slideIn") {
+    // Finished sliding in: allow next interaction
+    wrappedCard.classList.remove("slide-in");
+    animating = false;
+  }
+});
+
+startBtn.onclick = startWrapped;
+nextBtn.onclick = nextSlide;
+replayBtn.onclick = startWrapped;
+
+// Restore previously uploaded snapshots from localStorage (read-only view)
+function restoreSnapshots() {
+  for (let i = 0; i < 4; i++) {
+    const saved = localStorage.getItem('galleryImage_' + i);
+    const img = document.getElementById('gallery-img-' + i);
+    if (img && saved) {
+      img.src = saved;
+    }
+  }
+}
+restoreSnapshots();
+
+// Hidden publish shortcut: Ctrl+Shift+P downloads view-only HTML with embedded images
+function publishViewOnly() {
+  const rootClone = document.documentElement.cloneNode(true);
+  rootClone.setAttribute('data-published', 'true');
+
+  // Start at the beginning when opened
+  const startC = rootClone.querySelector('#start-screen');
+  const wrappedC = rootClone.querySelector('#wrapped-screen');
+  const mainC = rootClone.querySelector('#main-page');
+  [startC, wrappedC, mainC].forEach(sec => sec && sec.classList.remove('active'));
+  if (startC) startC.classList.add('active');
+
+  // Ensure images remain embedded; fill from localStorage if any src is missing
+  rootClone.querySelectorAll('.gallery-item img').forEach((img, idx) => {
+    if (!img.getAttribute('src')) {
+      const saved = localStorage.getItem('galleryImage_' + idx);
+      if (saved) img.setAttribute('src', saved);
+    }
+  });
+
+  const finalHtml = '<!DOCTYPE html>\n' + rootClone.outerHTML;
+  const blob = new Blob([finalHtml], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'index.html';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
+}
+
+window.addEventListener('keydown', (e) => {
+  const key = (e.key || '').toLowerCase();
+  if (e.ctrlKey && e.shiftKey && key === 'p') {
+    e.preventDefault();
+    publishViewOnly();
+  }
+});
+// Also expose via console for convenience
+window.publishNow = publishViewOnly;
+</script>
+
+</body>
+</html>
