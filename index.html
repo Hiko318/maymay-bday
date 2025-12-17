@@ -278,6 +278,9 @@
     .gallery-item:hover .upload-overlay { opacity: 0.15; }
     .hidden-input { display: none; }
 
+    /* Hide gallery caption text on published site */
+    html[data-published="true"] .gallery-caption { display: none; }
+
     footer {
       text-align: center;
       margin-top: 25px;
